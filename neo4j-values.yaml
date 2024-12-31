@@ -1,0 +1,36 @@
+neo4j:
+  name: "neo4j-standalone"
+  password: "project1phase2"
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "1"
+  core:
+    numberOfServers: 1
+  readReplica:
+    numberOfServers: 0
+service:
+  type: ClusterIP
+  port: 7474
+  boltPort: 7687
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: "standard"
+volumes:
+  data:
+    mode: "defaultStorageClass"
+backup:
+  enabled: false
+metrics:
+  enabled: false
+logging:
+  level: INFO
+env:
+  NEO4J_PLUGINS: '["graph-data-science", "apoc"]'
+config:
+  dbms.security.procedures.unrestricted: "gds.*, apoc.*, bloom.*"
+  dbms.security.procedures.allowlist: "gds.*,apoc.*, bloom.*"
